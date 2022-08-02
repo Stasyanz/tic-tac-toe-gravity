@@ -18,7 +18,7 @@ def draw_board(board: list) -> None:
         print("-" * size)
 
 
-def take_input(board: list, player_token: str) -> None:
+def take_input(board: list, player_token: str) -> str:
     """ Take user input"""
     tokens = "XO"
     valid = False
@@ -41,6 +41,7 @@ def take_input(board: list, player_token: str) -> None:
                         print("This cell is already taken, choose another one")
                         break
                 x -= 6
+    return player_token
 
 
 def win_coordinates() -> list:
@@ -68,7 +69,7 @@ def check_win(board: list, win_coords: list) -> bool:
     """ Check if there is a winner (4 in a row)"""
 
     for each in win_coords:
-        if board[each[0]] == board[each[1]] == board[each[2]] == board[each[3]]:
+        if board[each[0]-1] == board[each[1]-1] == board[each[2]-1] == board[each[3]-1]:
             return board[each[0]]
     return False
 
@@ -79,14 +80,14 @@ def main(board: list, win_coords: list) -> None:
     while not win:
         draw_board(board)
         if counter % 2 == 0:
-            take_input(board, "X")
+            token = take_input(board, "X")
         else:
-            take_input(board, "O")
+            token = take_input(board, "O")
         counter += 1
         if counter > 6:  # Time to check if there is a winner
             winner = check_win(board, win_coords)
             if winner:
-                print("\n", winner, " wins!")
+                print(f"\n{token} wins!")
                 break
         if counter == size:
             print("Draw!")
